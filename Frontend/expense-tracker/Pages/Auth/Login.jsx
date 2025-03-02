@@ -4,6 +4,7 @@ import Input from "../../components/Input/Input";
 import { Link } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,13 +19,15 @@ const Login = () => {
 
     if (!password) {
       setError("Please Enter Your Password");
+      return
     }
+    setError("");
   };
   return (
     <div>
       <AuthLayout>
-        <div className="h-4/4 flex justify-center flex-col items-center m-8">
-          <div className="w-[60%] px-[25px] py-[35px] rounded-2xl shadow-2xl shadow-violet-500">
+        <div className="h-16/4 flex justify-center flex-col items-center my-8">
+          <div className="md:w-[60%] px-[25px] py-[35px] rounded-2xl shadow-2xl shadow-violet-500">
             <h1 className="text-2xl">Welcome Back</h1>
             <p className="text-sm mb-7">please enter your login details</p>
             <form onSubmit={handleLogin}>
@@ -63,6 +66,10 @@ const Login = () => {
           </div>
         </div>
       </AuthLayout>
+      {/* <div>
+      <SignUp/>
+      </div> */}
+        
     </div>
   );
 };

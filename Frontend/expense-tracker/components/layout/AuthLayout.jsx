@@ -2,12 +2,14 @@ import React from "react";
 import image from "../../src/assets/images/auth-image.jpg";
 import {LuTrendingUpDown} from 'react-icons/lu'
 
+
 const AuthLayout = ({ children }) => {
   return (
     <div className="flex">
-      <div className="md:w-[60vw]  w-screen h-screen pb-12 px-8 py-8 overflow-hidden">
-        <h1 className="text-3xl">Expense Tracker</h1>
-        {children}
+      <div className="md:w-[60vw]  w-screen h-screen pb-12 px-8 py-8 overflow-hidden overflow-y-auto">
+        {/* <h1 className="text-3xl">Expense Tracker</h1> */}
+        <div> <span className="text-3xl">Expense Tracker</span> {children}</div>
+        
       </div>
       <div className="md:w-[40vw] w-screen h-screen pb-12 px-8 hidden md:block overflow-hidden relative bg-gray-100">
         <div className="w-48 h-48 bg-purple-700 rounded-[40px] absolute -top-8 -left-5"></div>
