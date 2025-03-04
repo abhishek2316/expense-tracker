@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-// const User = require('../models/User');
 require("dotenv").config();
 const connectDB = require('../config/db');
 const bcrypt = require('bcryptjs');
@@ -39,12 +38,13 @@ exports.registerUser = async (req, res) => {
             id: result.insertId,  // Capture the ID of the inserted user
             fullName,
             email,
+            hashedPassword,
             profileImageUrl
         };
 
         return res.status(201).json({
             user,
-            token: generateJWT(result.insertId) // Pass the inserted user ID to generate the JWT
+            token: generateJWT(result.insertId)
         });
 
     } catch (err) {
