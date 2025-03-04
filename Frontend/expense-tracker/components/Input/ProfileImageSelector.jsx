@@ -14,8 +14,12 @@ const ProfileImageSelector = ({ image, setImage }) => {
     }
   };
   const handleRemoveImage = () => {
-    setImage(null);
-    setPrevUrl(null);
+    const confirmDelete = window.confirm("Do you really want to delete?");
+    
+    if (confirmDelete) {
+      setImage(null);
+      setPrevUrl(null);
+    }
   };
 
   const chooseFile = () => {

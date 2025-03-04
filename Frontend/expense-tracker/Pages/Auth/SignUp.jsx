@@ -16,6 +16,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const handleSignup = async (e) => {
     e.preventDefault();
+    let profileImageUrl= "";
     if (!fullName) {
       setError("Please Enter Your Name.");
       return;

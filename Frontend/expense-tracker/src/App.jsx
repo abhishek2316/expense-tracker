@@ -15,7 +15,7 @@ import Expense from "../Pages/Dashboard/Expense";
 function App() {
   return (
     <div>
-      <Router>
+      <Router  basename="/expense-tracker">
         <Routes>
           <Route path="/" element={<Root />}></Route>
           <Route path="/login" exact element={<Login />}></Route>
@@ -23,7 +23,6 @@ function App() {
           <Route path="/dashboard" exact element={<Home />}></Route>
           <Route path="/income" exact element={<Income />}></Route>
           <Route path="/expense" exact element={<Expense />}></Route>
-          <Route></Route>
         </Routes>
       </Router>
     </div>
