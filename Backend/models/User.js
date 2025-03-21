@@ -28,4 +28,18 @@ const checkPassword = async (password, hashedPassword) => {
     }
 };
 
-module.exports = { hashPassword, checkEmailExists, checkPassword };
+const checkData = async (id) => {
+    try {
+        const pool = await connectDb();
+        const connection = await pool.getConnection();
+        const query = `SELECT id, name, email, profileImageUrl FROM ${process.env.DATABASE}.user WHERE id = ?`;
+        const [results] = await connection.execute(query, [id]);
+        connection.release();
+        return results.length > 0 ? results[0] : null;
+    } catch (error) {
+        console.error("Error checking id:", error.message);
+        throw error;
+    }
+}
+
+module.exports = { hashPassword, checkEmailExists, checkPassword, checkData };

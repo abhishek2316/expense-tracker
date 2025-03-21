@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { hashPassword, checkEmailExists, checkPassword } = require("../models/User");
+const { hashPassword, checkEmailExists, checkPassword, checkData } = require("../models/User");
 const connectDb = require("../config/db");
 
 
-const generatejwt = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+const generatejwt = (user) => {
+    return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "4h" });
 };
 
 
@@ -44,7 +44,7 @@ exports.registerUser = async (req, res) => {
 
         return res.status(201).json({
             user,
-            token: generatejwt(result.insertId)
+            token: generatejwt(user)
         });
 
     } catch (err) {
@@ -69,15 +69,24 @@ exports.loginUser = async (req, res) => {
             return res.status(400).json({ message: "Invalid Credentials." });
         }
         res.status(200).json({
-            id: user.insertId,
+            id: user.id,
             user,
-            token: generatejwt(user.insertId)
+            token: generatejwt(user)
         })
-    } catch (error) {
+    } catch (err) {
         console.error("Error:", err.message);
         res.status(500).json({ message: "Error registering user!", error: err.message });
     }
 };
 exports.getUserInfo = async (req, res) => {
-    
+    try {
+        const user = await checkData(req.user.id);
+        if(!user){
+            return res.status(404).json({message: "User not found."})
+        }
+        res.status(200).json(user)
+    } catch (err) {
+        console.error("Error:", err.message);
+        res.status(500).json({ message: "Error user!", error: err.message });
+    }
 };
