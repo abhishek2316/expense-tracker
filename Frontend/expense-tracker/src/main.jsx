@@ -4,7 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 
-const basename = "/expense-tracker"; // GitHub Pages repo name
+const basename = "/"; // GitHub Pages repo name
+// const basename = import.meta.env.MODE === "production" ? "/expense-tracker" : "/";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

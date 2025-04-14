@@ -10,9 +10,9 @@ const generatejwt = (user) => {
 
 
 exports.registerUser = async (req, res) => {
-    const { fullname, email, password, profileImageUrl } = req.body;
+    const { fullName, email, password, profileImageUrl } = req.body;    
 
-    if (!fullname || !email || !password) {
+    if (!fullName || !email || !password) {
         return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -31,12 +31,12 @@ exports.registerUser = async (req, res) => {
         const query = 'INSERT INTO user (name, email, password, profileImageUrl) VALUES (?, ?, ?, ?)';
         
         
-        const [result] = await conn.execute(query, [fullname, email, hashedPassword, profileImageUrl]);
+        const [result] = await conn.execute(query, [fullName, email, hashedPassword, profileImageUrl]);
 
         
         const user = {
             id: result.insertId,
-            fullname,
+            fullName,
             email,
             password,
             profileImageUrl

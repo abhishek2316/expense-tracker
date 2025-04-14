@@ -1,5 +1,6 @@
 import React from "react";
-import image from "../../src/assets/images/auth-image.jpg";
+// import image from "../../src/assets/images/auth-image.jpg";
+import image from "../../../src/assets/images/auth-image.jpg";
 import {LuTrendingUpDown} from 'react-icons/lu'
 
 

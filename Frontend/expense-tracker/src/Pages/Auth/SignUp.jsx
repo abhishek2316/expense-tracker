@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthLayout from "../../components/layout/AuthLayout";
 import Input from "../../components/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
-import { validateEmail } from "../../utils/helper";
+import { validateEmail } from "../../../utils/helper";
 import ProfileImageSelector from "../../components/Input/ProfileImageSelector";
+import { API_PATHS } from "../../../utils/apiPath";
+import axiosInstance from "../../../utils/axiosInstance";
+import { UserContext } from "../../context/userContext";
+import uploadImage from "../../../utils/uploadImage";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
@@ -12,10 +16,13 @@ const SignUp = () => {
   const [confPass, setConfPass] = useState("");
   const [error, setError] = useState(null);
   const [profilePic, setProfilePic] = useState("");
+  const { updateUser } = useContext(UserContext)
 
   const navigate = useNavigate();
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    let profileImageUrl = "";
     if (!fullName) {
       setError("Please Enter Your Name.");
       return;
@@ -37,6 +44,31 @@ const SignUp = () => {
       return;
     }
     setError("");
+    // SignUp API
+    try {
+      if(profilePic){
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullName,
+        email,
+        password,
+        profileImageUrl
+      });
+      const { token, user } = response.data;
+      if(token){
+        localStorage.getItem("token", token);
+        updateUser(user);
+        navigate("/dashbaord");
+      }
+    } catch (error) {
+      if(error.message && error.response.data.message){
+        setError(error.response.data.message);
+      }else{
+        setError("Something went wroung.")
+      }
+    }
   };
 
   return (
@@ -93,7 +125,7 @@ const SignUp = () => {
               </div>
               {error && <p className="text-red-500 text-sm pb-.5 ">{error}</p>}
               <button type="submit" className="btn-primary">
-                LOGIN
+                SIGN UP
               </button>
               <p className="text-[15px] text-slate-800 mt-3">
                 Already have an account?{" "}
